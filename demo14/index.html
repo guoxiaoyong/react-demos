@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clock</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js" integrity="sha256-2/3+Q1kMYR8MDaqFPNBgmLgiqWJjySkg1wqLx/iE5Zo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/en-ca.js" integrity="sha256-QrG/Vh2jhK8ZzapI8JX/Td7F6nNXRLCeCHnWeIriSEo=" crossorigin="anonymous"></script>
+  </head>
+  <style>
+    body {
+      background-color: #e0e0e0;
+      font-family: monospace;
+    }
+
+    #root {
+      width: 50%;
+      border: 3px solid green;
+      margin: 5em auto;
+      text-align: center;
+      background-color: #eeeeee;
+    }
+    .time {
+      font-size: 300%;
+      border: 8px solid blue;
+      display: inline-block;
+      color: red;
+      padding: 1em;
+      margin: 5em auto;
+    }
+  </style>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {time: moment().format('MMMM Do YYYY, h:mm:ss a')}
+  }
+
+  updateTime() {
+    let state = {time: moment().format('MMMM Do YYYY, h:mm:ss a')}
+    this.setState(state);
+  }
+
+  render() {
+    return(
+      <div className="time"> { this.state.time } </div>
+    );
+  }
+
+  componentDidMount() {
+    this.interval = window.setInterval(this.updateTime.bind(this), 100);
+    console.log("Component Mounted...")
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    console.log("Component Unmounted...")
+  }
+}
+
+      ReactDOM.render(
+        <Clock />,
+        document.getElementById('root')
+      );
+
+    </script>
+  </body>
+</html>
